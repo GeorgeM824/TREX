@@ -80,13 +80,14 @@ function draw() {
         score +=1;
     }
 
-        if (keyDown("space") && trex.y >= 135) {
+        if((touches.length > 0 || keyDown("space")) && trex.y >= 135) {
             trex.velocityY = -12;
             jump_Sound.play();
+            touches = [];   
         
         }
     
-        trex.velocityY = trex.velocityY + 0.8
+        trex.velocityY = trex.velocityY + 0.8   
     
        
     
@@ -114,9 +115,10 @@ function draw() {
         obstacleGroup.setLifetimeEach(-1);
         cloudGroup.setLifetimeEach(-1);
         trex.changeAnimation("collided",trex_collided);
-        if(mousePressedOver(restart))
+        if((mousePressedOver(restart) || touches.length > 0))
      {
             restartGame();
+            touches = [];  
     
         }
 
@@ -264,12 +266,13 @@ function spawn_Obstacle(){
 }
 
 function restartGame(){
-    gameState = "start";
+    gamestate = "start";
     obstacleGroup.destroyEach();
     cloudGroup.destroyEach();
     restart.visible = false;
     gameOver.visible = false;
     trex.changeAnimation("running", trex_running);
+    ground.velocityX = -4;
     score = 0;
 
 
